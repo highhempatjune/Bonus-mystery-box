@@ -9,25 +9,22 @@
 </head>
 <body>
   <div class="container">
-    <!-- Logo Section -->
+    <!-- Logo -->
     <div class="logo">
       <img src="logo-placeholder.png" alt="Your Logo" />
     </div>
 
-    <!-- Title -->
     <h1>PICK YOUR MYSTERY BOX 🎁</h1>
     <p class="subtitle">💥 One Box. One Chance. Real Rewards.</p>
 
-    <!-- Box Grid -->
     <div class="boxes">
-      <div class="box" onclick="revealReward()">1</div>
-      <div class="box" onclick="revealReward()">2</div>
-      <div class="box" onclick="revealReward()">3</div>
-      <div class="box" onclick="revealReward()">4</div>
-      <div class="box" onclick="revealReward()">5</div>
+      <div class="gift-box" onclick="openBox(this)" data-number="1">🎁<span class="number">1</span></div>
+      <div class="gift-box" onclick="openBox(this)" data-number="2">🎁<span class="number">2</span></div>
+      <div class="gift-box" onclick="openBox(this)" data-number="3">🎁<span class="number">3</span></div>
+      <div class="gift-box" onclick="openBox(this)" data-number="4">🎁<span class="number">4</span></div>
+      <div class="gift-box" onclick="openBox(this)" data-number="5">🎁<span class="number">5</span></div>
     </div>
 
-    <!-- Info Section -->
     <div class="info">
       <ul>
         <li>📥 Deposit $10+ and message “BOX” to play.</li>
@@ -35,24 +32,32 @@
       </ul>
     </div>
 
-    <!-- Footer -->
     <footer>
       <p>📩 Message our page now to claim your reward!</p>
     </footer>
   </div>
 
-  <!-- JavaScript -->
   <script>
-    function revealReward() {
-      const rewards = [
-        "🎉 25% Bonus!",
-        "💰 50% Bonus!",
-        "🎮 Free Game Credits!",
-        "🔥 $10 Freeplay!",
-        "🎯 100% Deposit Match!"
-      ];
+    const alreadyOpened = localStorage.getItem("boxOpened");
+
+    const rewards = [
+      "🎉 25% Bonus!",
+      "💰 50% Bonus!",
+      "🎮 Free Game Credits!",
+      "🔥 $10 Freeplay!",
+      "🎯 100% Deposit Match!"
+    ];
+
+    function openBox(element) {
+      if (alreadyOpened || element.classList.contains("opened")) return;
+
+      element.classList.add("opened");
+      const boxes = document.querySelectorAll(".gift-box");
+      boxes.forEach(box => box.style.pointerEvents = "none");
+
       const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-      alert("You got: " + randomReward);
+      element.innerHTML = `<div class="opened-box">🎊<br><span class="reward-text">${randomReward}</span></div>`;
+      localStorage.setItem("boxOpened", "true");
     }
   </script>
 </body>
