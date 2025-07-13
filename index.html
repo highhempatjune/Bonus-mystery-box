@@ -17,12 +17,8 @@
     <h1>PICK YOUR MYSTERY BOX 🎁</h1>
     <p class="subtitle">💥 One Box. One Chance. Real Rewards.</p>
 
-    <div class="boxes">
-      <div class="gift-box" onclick="openBox(this)">🎁</div>
-      <div class="gift-box" onclick="openBox(this)">🎁</div>
-      <div class="gift-box" onclick="openBox(this)">🎁</div>
-      <div class="gift-box" onclick="openBox(this)">🎁</div>
-      <div class="gift-box" onclick="openBox(this)">🎁</div>
+    <div class="boxes" id="box-container">
+      <!-- Boxes will be injected by JavaScript -->
     </div>
 
     <div class="info">
@@ -38,8 +34,6 @@
   </div>
 
   <script>
-    const alreadyOpened = localStorage.getItem("boxOpened");
-
     const rewards = [
       "🎉 25% Bonus!",
       "💰 50% Bonus!",
@@ -48,17 +42,54 @@
       "🎯 100% Deposit Match!"
     ];
 
-    function openBox(element) {
-      if (alreadyOpened || element.classList.contains("opened")) return;
+    const totalBoxes = 5;
+    const container = document.getElementById("box-container");
 
-      element.classList.add("opened");
-      const boxes = document.querySelectorAll(".gift-box");
-      boxes.forEach(box => box.style.pointerEvents = "none");
+    // Check if a reward was already picked
+    const openedIndex = localStorage.getItem("openedBoxIndex");
+    const openedReward = localStorage.getItem("openedReward");
 
-      const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-      element.innerHTML = `<div class="opened-box">🎊<br><span class="reward-text">${randomReward}</span></div>`;
-      localStorage.setItem("boxOpened", "true");
+    function renderBoxes() {
+      for (let i = 0; i < totalBoxes; i++) {
+        const box = document.createElement("div");
+        box.className = "gift-box";
+
+        if (openedIndex !== null && parseInt(openedIndex) === i) {
+          box.classList.add("opened");
+          box.innerHTML = `<div class="opened-box">🎊<br><span class="reward-text">${openedReward}</span></div>`;
+          box.style.pointerEvents = "none";
+        } else if (openedIndex !== null) {
+          box.style.pointerEvents = "none";
+          box.textContent = "🎁";
+        } else {
+          box.textContent = "🎁";
+          box.onclick = () => openBox(box, i);
+        }
+
+        container.appendChild(box);
+      }
     }
+
+    function openBox(element, index) {
+      if (localStorage.getItem("openedBoxIndex") !== null) return;
+
+      // Pick random reward
+      const reward = rewards[Math.floor(Math.random() * rewards.length)];
+
+      // Save to localStorage
+      localStorage.setItem("openedBoxIndex", index);
+      localStorage.setItem("openedReward", reward);
+
+      // Disable all other boxes
+      const boxes = document.querySelectorAll(".gift-box");
+      boxes.forEach(b => b.style.pointerEvents = "none");
+
+      // Animate and update this box
+      element.classList.add("opened");
+      element.innerHTML = `<div class="opened-box">🎊<br><span class="reward-text">${reward}</span></div>`;
+    }
+
+    renderBoxes();
   </script>
 </body>
 </html>
