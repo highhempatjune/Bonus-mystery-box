@@ -11,7 +11,6 @@
   <div class="container">
     <!-- Logo Section -->
     <div class="logo">
-      <!-- Replace this with your logo image -->
       <img src="logo-placeholder.png" alt="Your Logo" />
     </div>
 
@@ -21,25 +20,19 @@
 
     <!-- Box Grid -->
     <div class="boxes">
-      <div class="box">1</div>
-      <div class="box">2</div>
-      <div class="box">3</div>
-      <div class="box">4</div>
-      <div class="box">5</div>
+      <div class="box" onclick="revealReward()">1</div>
+      <div class="box" onclick="revealReward()">2</div>
+      <div class="box" onclick="revealReward()">3</div>
+      <div class="box" onclick="revealReward()">4</div>
+      <div class="box" onclick="revealReward()">5</div>
     </div>
 
     <!-- Info Section -->
     <div class="info">
-      <p>🎁 Prizes Inside:</p>
       <ul>
-        <li>💰 25% Bonus</li>
-        <li>💰 50% Bonus</li>
-        <li>🎮 Free Credits</li>
-        <li>🎲 $10 Freeplay</li>
-        <li>🎉 100% Deposit Match</li>
+        <li>📥 Deposit $10+ and message “BOX” to play.</li>
+        <li>⚠️ One pick per player per day!</li>
       </ul>
-      <p>📥 Deposit $10+ and message “BOX” to play.</p>
-      <p>⚠️ One pick per player per day!</p>
     </div>
 
     <!-- Footer -->
@@ -47,5 +40,20 @@
       <p>📩 Message our page now to claim your reward!</p>
     </footer>
   </div>
+
+  <!-- JavaScript -->
+  <script>
+    function revealReward() {
+      const rewards = [
+        "🎉 25% Bonus!",
+        "💰 50% Bonus!",
+        "🎮 Free Game Credits!",
+        "🔥 $10 Freeplay!",
+        "🎯 100% Deposit Match!"
+      ];
+      const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
+      alert("You got: " + randomReward);
+    }
+  </script>
 </body>
 </html>
